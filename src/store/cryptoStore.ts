@@ -3,10 +3,14 @@ import { create } from "zustand";
 import { fetchTopCryptos } from "../services/coingecko";
 import type { CryptoCurrency } from "../types/crypto";
 
+type SortOption = "price" | "performance" | "name";
+
 type State = {
   cryptos: CryptoCurrency[];
   isLoading: boolean;
   error: string | null;
+  sortBy: SortOption;
+  setSortBy: (value: SortOption) => void;
   loadCryptos: () => Promise<void>;
 };
 
@@ -14,6 +18,8 @@ export const useCryptoStore = create<State>((set) => ({
   cryptos: [],
   isLoading: false,
   error: null,
+  sortBy: "performance",
+  setSortBy: (value) => set({ sortBy: value }),
 
   loadCryptos: async () => {
     set({ isLoading: true, error: null });

@@ -10,7 +10,9 @@
     "preview": "vite preview",
     "build:css": "tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
     "prepare": "husky install",
-    "test": "vitest run --clearCache"
+    "test": "npx vitest run",
+    "test:watch": "npx vitest watch",
+    "test:clear": "vitest run --clearCache"
   },
   "dependencies": {
     "axios": "^1.11.0",

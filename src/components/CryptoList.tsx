@@ -1,9 +1,10 @@
 // src/components/CryptoList.tsx
 import React, { useEffect } from "react";
 import { useCryptoStore } from "../store/cryptoStore";
+import { sortCryptos } from "../utils/sortCryptos";
 
 const CryptoList: React.FC = () => {
-  const { cryptos, isLoading, error, loadCryptos } = useCryptoStore();
+  const { cryptos, isLoading, error, loadCryptos, sortBy } = useCryptoStore();
 
   useEffect(() => {
     loadCryptos();
@@ -12,9 +13,11 @@ const CryptoList: React.FC = () => {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
+  const sorted = sortCryptos(cryptos, sortBy);
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      {cryptos.map((coin) => (
+      {sorted.map((coin) => (
         <div key={coin.id} className="border p-4 rounded shadow bg-white">
           <div className="flex items-center space-x-4">
             <img src={coin.image} alt={coin.name} className="w-8 h-8" />
