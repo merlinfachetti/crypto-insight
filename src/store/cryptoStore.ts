@@ -17,16 +17,16 @@ export const useCryptoStore = create<State>((set) => ({
 
   loadCryptos: async () => {
     set({ isLoading: true, error: null });
+
     try {
       const data = await fetchTopCryptos();
       set({ cryptos: data });
     } catch (err: unknown) {
       if (err instanceof Error) {
-        console.error("Erro ao carregar criptos:", err.message);
+        set({ error: err.message });
       } else {
-        console.error("Erro desconhecido ao carregar criptos:", err);
+        set({ error: "Failed to load cryptos" });
       }
-      set({ error: "Failed to load cryptos" });
     } finally {
       set({ isLoading: false });
     }
