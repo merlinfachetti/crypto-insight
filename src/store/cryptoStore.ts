@@ -10,22 +10,27 @@ type State = {
   isLoading: boolean;
   error: string | null;
   sortBy: SortOption;
+  currency: string;
   setSortBy: (value: SortOption) => void;
+  setCurrency: (c: string) => void;
   loadCryptos: () => Promise<void>;
 };
 
-export const useCryptoStore = create<State>((set) => ({
+export const useCryptoStore = create<State>((set, get) => ({
   cryptos: [],
   isLoading: false,
   error: null,
   sortBy: "performance",
+  currency: "usd",
   setSortBy: (value) => set({ sortBy: value }),
+  setCurrency: (currency) => set({ currency }),
 
   loadCryptos: async () => {
     set({ isLoading: true, error: null });
 
     try {
-      const data = await fetchTopCryptos();
+      const { currency } = get();
+      const data = await fetchTopCryptos(currency);
       set({ cryptos: data });
     } catch (err: unknown) {
       if (err instanceof Error) {
