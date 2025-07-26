@@ -1,6 +1,7 @@
 // src/services/coingecko.ts
 import axios, { AxiosError } from "axios";
 import type { CryptoCurrency } from "../types/crypto";
+import type { PricePoint } from "../types/chart";
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
@@ -41,4 +42,23 @@ export const fetchTopCryptos = async (
 
     throw new Error("Unknown Error: Failed to fetch data");
   }
+};
+
+export const fetchPriceHistory = async (
+  coinId: string,
+  currency: string = "usd"
+): Promise<PricePoint[]> => {
+  const response = await axios.get(`${BASE_URL}/coins/${coinId}/market_chart`, {
+    params: {
+      vs_currency: currency,
+      days: 7,
+    },
+  });
+
+  const raw: [number, number][] = response.data.prices;
+
+  return raw.map(([timestamp, value]) => ({
+    date: new Date(timestamp).toLocaleDateString(),
+    value: parseFloat(value.toFixed(2)),
+  }));
 };

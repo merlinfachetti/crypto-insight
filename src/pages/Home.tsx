@@ -2,6 +2,7 @@ import React from "react";
 import CryptoList from "../components/CryptoList";
 import CryptoFilter from "../components/CryptoFilter";
 import CurrencySelector from "../components/CurrencySelector";
+import PriceChart from "../components/PriceChart";
 
 const Home: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const Home: React.FC = () => {
       <CurrencySelector />
       <CryptoFilter />
       <CryptoList />
+      <PriceChart />
     </section>
   );
 };
