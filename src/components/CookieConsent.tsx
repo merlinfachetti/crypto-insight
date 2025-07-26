@@ -1,13 +1,16 @@
 // src/components/CookieConsent.tsx
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCryptoStore } from "../store/cryptoStore";
+import { LucideCookie } from "lucide-react"; // opcional
 
 const CookieConsent: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const { consentGiven, setConsentGiven } = useCryptoStore();
 
   useEffect(() => {
-    if (!consentGiven) setVisible(true);
+    if (!consentGiven) {
+      setVisible(true);
+    }
   }, [consentGiven]);
 
   const accept = () => {
@@ -18,19 +21,30 @@ const CookieConsent: React.FC = () => {
   if (!visible) return null;
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 md:left-6 md:right-6 bg-white shadow-lg border p-4 rounded z-50">
-      <p className="text-sm text-gray-700">
-        This application uses local storage to save your favorite
-        cryptocurrencies. No personal data is collected or shared. By
-        continuing, you agree to the use of local storage for this purpose.
-      </p>
-      <div className="mt-3 text-right">
-        <button
-          onClick={accept}
-          className="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 text-sm"
-        >
-          I Understand and Accept
-        </button>
+    <div className="fixed bottom-4 left-0 right-0 z-[1000] flex justify-center px-4 pointer-events-none">
+      <div
+        className="pointer-events-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-6 bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg shadow-lg max-w-3xl w-full mx-auto animate-fade-up"
+        role="dialog"
+        aria-live="polite"
+      >
+        <div className="flex gap-3 items-start sm:items-center">
+          <LucideCookie className="w-5 h-5 mt-1 sm:mt-0" />
+          <div>
+            <p className="font-semibold text-sm">We value your privacy</p>
+            <p className="text-xs text-white/90 leading-snug mt-1">
+              This site uses local storage to save preferences and favorites. No
+              personal data is collected or shared.
+            </p>
+          </div>
+        </div>
+        <div className="text-right w-full sm:w-auto">
+          <button
+            onClick={accept}
+            className="bg-white text-blue-700 hover:bg-blue-100 transition-all px-4 py-2 text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-white"
+          >
+            Accept & Continue
+          </button>
+        </div>
       </div>
     </div>
   );

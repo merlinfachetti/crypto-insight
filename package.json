@@ -8,13 +8,13 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext .ts,.tsx",
     "preview": "vite preview",
-    "build:css": "tailwindcss -i ./src/index.css -o ./dist/output.css --watch",
     "prepare": "husky install",
     "test": "npx vitest run",
     "test:watch": "npx vitest watch",
     "test:clear": "vitest run --clearCache"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
     "axios": "^1.11.0",
     "i18next": "^25.3.2",
     "lucide-react": "^0.525.0",
@@ -29,7 +29,6 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.30.1",
     "@tailwindcss/cli": "^4.1.11",
-    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/jest": "^30.0.0",
