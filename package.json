@@ -8,13 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext .ts,.tsx",
     "preview": "vite preview",
-    "prepare": "husky install",
     "test": "npx vitest run",
     "test:watch": "npx vitest watch",
     "test:clear": "vitest run --clearCache"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-router": "^1.130.1",
     "axios": "^1.11.0",
     "i18next": "^25.3.2",

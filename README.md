@@ -132,7 +132,7 @@ We chose **TanStack Router** (from the creator of React Query) because it is:
 
 ### 🧪 Routing Setup (Developer Note)
 
-````ts
+```ts
 // Example in `router.tsx`
 const router = createRouter({
   routeConfig: rootRoute.addChildren([
@@ -142,7 +142,7 @@ const router = createRouter({
     },
   ]),
 });
-
+```
 
 **Main files:**
 
@@ -173,7 +173,7 @@ You can define additional routes using `createRoute` and attach them to the `rou
  │    ├─ getBadgeLabel.ts
  │    └─ __tests__/
  │         └─ getBadgeLabel.test.ts
-````
+```
 
 ---
 
