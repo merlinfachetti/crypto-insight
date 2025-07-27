@@ -3,6 +3,7 @@ import CryptoList from "../components/CryptoList";
 import CryptoFilter from "../components/CryptoFilter";
 import CurrencySelector from "../components/CurrencySelector";
 import PriceChart from "../components/PriceChart";
+import { ConsentSettings } from "../components/ConsentSettings";
 
 const Home: React.FC = () => {
   return (
@@ -13,6 +14,7 @@ const Home: React.FC = () => {
         <CryptoFilter />
         <CryptoList />
         <PriceChart />
+        <ConsentSettings />
       </div>
     </section>
   );

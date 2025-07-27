@@ -7,6 +7,12 @@ import type { PricePoint } from "../types/chart";
 
 type SortOption = "price" | "performance" | "name";
 
+type ConsentGiven = {
+  accepted: boolean;
+  at: string;
+  version: string;
+} | null;
+
 type State = {
   cryptos: CryptoCurrency[];
   isLoading: boolean;
@@ -14,7 +20,7 @@ type State = {
   sortBy: SortOption;
   currency: string;
   favorites: string[];
-  consentGiven: boolean;
+  consentGiven: ConsentGiven;
   priceHistory: PricePoint[];
   selectedCoin: string | null;
 };
@@ -42,11 +48,18 @@ export const useCryptoStore = create<State & Actions>()(
       priceHistory: [],
       selectedCoin: null,
 
-      setConsentGiven: (value) => set({ consentGiven: value }),
+      setConsentGiven: (value) => {
+        const consent = {
+          accepted: value,
+          at: new Date().toISOString(),
+          version: "v1.0",
+        };
+        set({ consentGiven: consent });
+      },
 
       toggleFavorite: (id) => {
         const { consentGiven } = get();
-        if (!consentGiven) return;
+        if (!consentGiven?.accepted) return;
 
         set((state) => ({
           favorites: state.favorites.includes(id)
@@ -86,6 +99,13 @@ export const useCryptoStore = create<State & Actions>()(
           const { currency } = get();
           const data = await fetchTopCryptos(currency);
           set({ cryptos: data });
+
+          if (data.length > 0) {
+            const firstCoinId = data[0].id;
+            set({ selectedCoin: firstCoinId });
+            const history = await fetchPriceHistory(firstCoinId, currency);
+            set({ priceHistory: history });
+          }
         } catch (err) {
           set({
             error:
