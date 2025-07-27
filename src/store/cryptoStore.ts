@@ -38,7 +38,7 @@ export const useCryptoStore = create<State & Actions>()(
       sortBy: "performance",
       currency: "usd",
       favorites: [],
-      consentGiven: false,
+      consentGiven: null,
       priceHistory: [],
       selectedCoin: null,
 

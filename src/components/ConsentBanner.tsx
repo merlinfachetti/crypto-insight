@@ -2,16 +2,15 @@ import { useCryptoStore } from "../store/cryptoStore";
 
 export function ConsentBanner() {
   const { consentGiven, setConsentGiven } = useCryptoStore();
-  const showBanner = !consentGiven;
 
-  if (!showBanner) return null;
+  if (consentGiven !== null) return null;
 
   const handleConsent = (value: boolean) => {
     setConsentGiven(value);
   };
 
   return (
-    <div className="fixed bottom-0 w-full bg-black text-white text-sm p-4 flex justify-between items-center z-50">
+    <div className="fixed bottom-0 left-0 w-full bg-black text-white text-sm p-4 flex justify-between items-center z-50">
       <span>
         Este site utiliza dados locais para melhorar sua experiência. Você
         aceita os termos?
