@@ -1,22 +1,14 @@
-import { useEffect, useState } from "react";
+import { useCryptoStore } from "../store/cryptoStore";
 
 export function ConsentBanner() {
-  const [showBanner, setShowBanner] = useState(false);
-
-  useEffect(() => {
-    const consent = localStorage.getItem("consentGiven");
-    if (consent === null) {
-      setShowBanner(true);
-    }
-  }, []);
-
-  const handleConsent = (value: boolean) => {
-    localStorage.setItem("consentGiven", value.toString());
-    setShowBanner(false);
-    window.location.reload();
-  };
+  const { consentGiven, setConsentGiven } = useCryptoStore();
+  const showBanner = !consentGiven;
 
   if (!showBanner) return null;
+
+  const handleConsent = (value: boolean) => {
+    setConsentGiven(value);
+  };
 
   return (
     <div className="fixed bottom-0 w-full bg-black text-white text-sm p-4 flex justify-between items-center z-50">

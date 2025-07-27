@@ -1,8 +1,7 @@
-// src/components/CryptoList.tsx
 import React, { useEffect } from "react";
 import { useCryptoStore } from "../store/cryptoStore";
 import { sortCryptos } from "../utils/sortCryptos";
-import { Skeleton } from "./ui/skeleton"; // Adicione um componente Skeleton para loading
+import { Skeleton } from "./ui/skeleton";
 
 const CryptoList: React.FC = () => {
   const {
@@ -19,7 +18,8 @@ const CryptoList: React.FC = () => {
 
   useEffect(() => {
     loadCryptos();
-  }, [loadCryptos]); // Removemos loadCryptos das dependências
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const sorted = sortCryptos(cryptos, sortBy);
 
