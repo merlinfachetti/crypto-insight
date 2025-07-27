@@ -1,4 +1,4 @@
-export interface CryptoCurrency {
+export type Coin = {
   id: string;
   name: string;
   symbol: string;
@@ -13,4 +13,4 @@ export interface CryptoCurrency {
   max_supply: number | null;
   ath: number; // all time high
   atl: number; // all time low
-}
+};

@@ -13,8 +13,11 @@ const CurrencySelector: React.FC = () => {
 
   return (
     <div className="mb-4">
-      <label className="font-medium mr-2">{t("select_currency")}:</label>
+      <label htmlFor="currency-select" className="font-medium mr-2">
+        {t("select_currency")}:
+      </label>
       <select
+        id="currency-select"
         value={currency}
         onChange={handleChange}
         className="border px-3 py-1 rounded"

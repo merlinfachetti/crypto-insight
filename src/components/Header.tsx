@@ -13,9 +13,6 @@ const Header = () => {
             alt="CryptoInsight Logo"
             className="h-8 w-auto"
           />
-          <span className="text-xl font-semibold text-gray-800">
-            CryptoInsight
-          </span>
         </Link>
 
         {/* Navigation Links */}

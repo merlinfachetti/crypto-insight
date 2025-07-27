@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
-import { useCryptoStore } from "../store/cryptoStore";
+import React from "react";
 import { sortCryptos } from "../utils/sortCryptos";
 import { getBadgeLabel } from "../utils/getBadgeLabel";
-import Badge from "./Badge";
 import { Skeleton } from "./ui/skeleton";
+import { useCryptoStore } from "../store/cryptoStore";
+import Badge from "./Badge";
+import type { Coin } from "@/types/coin";
 
-const CryptoList: React.FC = () => {
+// Tipagem da prop
+interface CryptoListProps {
+  coins: Coin[];
+}
+
+const CryptoList: React.FC<CryptoListProps> = ({ coins }) => {
   const {
-    cryptos,
     isLoading,
     error,
-    loadCryptos,
     sortBy,
     favorites,
     toggleFavorite,
@@ -18,12 +22,7 @@ const CryptoList: React.FC = () => {
     setSelectedCoin,
   } = useCryptoStore();
 
-  useEffect(() => {
-    loadCryptos();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const sorted = sortCryptos(cryptos, sortBy);
+  const sorted = sortCryptos(coins, sortBy);
 
   if (error) {
     return (
@@ -45,7 +44,7 @@ const CryptoList: React.FC = () => {
             Nenhuma criptomoeda disponível no momento.
           </p>
           <button
-            onClick={loadCryptos}
+            onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
           >
             Tentar novamente

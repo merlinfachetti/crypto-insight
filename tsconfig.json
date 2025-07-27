@@ -1,7 +1,12 @@
+// It only serves to organize and reference the files: tsconfig.app.json & tsconfig.node.json
 {
   "compilerOptions": {
     "forceConsistentCasingInFileNames": true,
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "files": [],
   "references": [
