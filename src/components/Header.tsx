@@ -1,21 +1,43 @@
-// src/components/Header.tsx
-import React from "react";
+import { Link } from "@tanstack/react-router";
 
-const Header: React.FC = () => {
+const Header = () => {
   return (
-    <header className="bg-gray-900 text-white px-6 py-4 shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">CryptoInsight</h1>
-        <nav className="hidden md:flex space-x-6">
-          <a href="#" className="hover:underline">
+    <header className="w-full border-b border-gray-200 bg-white px-4 py-2 shadow-sm">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <Link
+          to="/"
+          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+        >
+          <img
+            src="/logo.png"
+            alt="CryptoInsight Logo"
+            className="h-8 w-auto"
+          />
+          <span className="text-xl font-semibold text-gray-800">
+            CryptoInsight
+          </span>
+        </Link>
+
+        {/* Navigation Links */}
+        <nav className="flex gap-6">
+          <Link
+            to="/"
+            className="text-sm text-gray-600 hover:text-black transition-colors"
+          >
             Home
-          </a>
-          <a href="#" className="hover:underline">
-            Dashboard
-          </a>
-          <a href="#" className="hover:underline">
-            Sobre
-          </a>
+          </Link>
+          <Link
+            to="/favorites"
+            className="text-sm text-gray-600 hover:text-black transition-colors"
+          >
+            Favorites
+          </Link>
+          <Link
+            to="/about"
+            className="text-sm text-gray-600 hover:text-black transition-colors"
+          >
+            About
+          </Link>
         </nav>
       </div>
     </header>

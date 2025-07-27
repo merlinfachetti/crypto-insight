@@ -70,8 +70,6 @@ CryptoInsight respects the user and **only activates additional features based o
 
 ---
 
-## 🧠 Technical Structure
-
 ### 🧱 Folder Architecture
 
 ```bash
@@ -79,6 +77,7 @@ CryptoInsight respects the user and **only activates additional features based o
  ├─ /assets
  ├─ /components
  ├─ /hooks
+ ├─ /routes
  ├─ /pages
  ├─ /services
  ├─ /store
@@ -86,6 +85,75 @@ CryptoInsight respects the user and **only activates additional features based o
  ├─ /types
  └─ main.tsx
 ```
+
+## 🧭 Routing Strategy
+
+### 🔄 Routing Layer
+
+We are using [TanStack Router v1](https://tanstack.com/router/v1) instead of React Router DOM.
+
+- ✅ Fully typed routing.
+- ✅ Nested route trees using file-based structure.
+- ✅ Compatible with strict TypeScript usage.
+
+### 📌 Why We Use TanStack Router Instead of React Router
+
+While React Router has historically been the go-to library for routing in React applications, it has recently undergone a significant transformation due to its merger with Remix.
+
+These changes introduced architectural complexity that many developers — including us — find unnecessarily heavy for client-side apps. Its new concepts like `loaders`, `actions`, and deep nested routing are tightly coupled with server-style rendering, which doesn't align with the lightweight and interactive nature of this dashboard.
+
+### 🔄 What's Going On with React Router?
+
+React Router v6+ has:
+
+- Integrated features and paradigms from Remix (like route loaders and actions).
+- Adopted a file-based routing mental model, without full tooling support unless you use Remix.
+- Fragmented its documentation — some parts are still Remix-specific, while others are outdated.
+- Begun delegating some updates to the community, reducing the coherence of the project.
+
+This created friction for many developers — especially those who preferred the previous declarative and predictable approach.
+
+### ✅ Why TanStack Router?
+
+We chose **TanStack Router** (from the creator of React Query) because it is:
+
+| Feature                 | TanStack Router                  | React Router (v6+/Remix)        |
+| ----------------------- | -------------------------------- | ------------------------------- |
+| **Performance**         | Lightweight, zero dependencies   | Medium-heavy, Remix-like model  |
+| **API Style**           | Code-first, modern, intuitive    | Hybrid, verbose and fragmented  |
+| **Type Safety**         | Excellent TypeScript inference   | Manual typing or weak inference |
+| **Flexibility**         | Works with any data-fetching lib | Tightly coupled to Remix model  |
+| **Community Direction** | Actively growing and maintained  | Slowing down, less independent  |
+| **Use Case Fit**        | Ideal for SPAs and dashboards    | More server-oriented via Remix  |
+
+> 🚀 **Conclusion:** TanStack Router aligns better with our project's goals — performance, clarity, maintainability, and future extensibility — especially in a React + Zustand-based SPA architecture.
+
+---
+
+### 🧪 Routing Setup (Developer Note)
+
+````ts
+// Example in `router.tsx`
+const router = createRouter({
+  routeConfig: rootRoute.addChildren([
+    {
+      path: "/",
+      component: HomePage,
+    },
+  ]),
+});
+
+
+**Main files:**
+
+- `src/routes/router.tsx`: defines the route tree.
+- `src/main.tsx`: wraps app with `<RouterProvider />`.
+- `src/components/Layout.tsx`: shared layout with header.
+- `src/pages/Home.tsx`: root page component.
+
+You can define additional routes using `createRoute` and attach them to the `routeTree`.
+
+---
 
 ### ⚙️ Test Structure
 
@@ -105,7 +173,7 @@ CryptoInsight respects the user and **only activates additional features based o
  │    ├─ getBadgeLabel.ts
  │    └─ __tests__/
  │         └─ getBadgeLabel.test.ts
-```
+````
 
 ---
 

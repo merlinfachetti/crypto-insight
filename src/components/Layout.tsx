@@ -1,16 +1,13 @@
-// src/components/Layout.tsx
 import React from "react";
 import Header from "./Header";
 
-type Props = {
-  children: React.ReactNode;
-};
-
-const Layout: React.FC<Props> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 py-6">{children}</main>
+      <main className="flex-grow px-4 py-6 w-full max-w-7xl mx-auto">
+        {children}
+      </main>
     </div>
   );
 };
