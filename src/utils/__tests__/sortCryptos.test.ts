@@ -1,6 +1,6 @@
 // tests/utils/sortCryptos.test.ts
-import { sortCryptos } from "../../src/utils/sortCryptos";
-import type { CryptoCurrency } from "../types/crypto";
+import { sortCryptos } from "../sortCryptos";
+import type { CryptoCurrency } from "../../types/crypto";
 
 const mockData = [
   { name: "Bitcoin", current_price: 50000, price_change_percentage_24h: 2 },

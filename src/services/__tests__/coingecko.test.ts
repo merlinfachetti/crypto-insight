@@ -5,7 +5,7 @@ vi.mock("axios");
 
 describe("CoinGecko Service", () => {
   it("should return an array of cryptocurrencies", async () => {
-    const { fetchTopCryptos } = await import("../../src/services/coingecko");
+    const { fetchTopCryptos } = await import("../../../src/services/coingecko");
 
     const mockData = [
       {
@@ -29,7 +29,7 @@ describe("CoinGecko Service", () => {
   });
 
   it("should handle API errors gracefully", async () => {
-    const { fetchTopCryptos } = await import("../../src/services/coingecko");
+    const { fetchTopCryptos } = await import("../../../src/services/coingecko");
 
     (axios.get as unknown as ReturnType<typeof vi.fn>).mockRejectedValue(
       new Error("API unreachable")
