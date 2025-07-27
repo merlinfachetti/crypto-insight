@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useCryptoStore } from "../store/cryptoStore";
 import { sortCryptos } from "../utils/sortCryptos";
+import { getBadgeLabel } from "../utils/getBadgeLabel";
+import Badge from "./Badge";
 import { Skeleton } from "./ui/skeleton";
 
 const CryptoList: React.FC = () => {
@@ -55,6 +57,9 @@ const CryptoList: React.FC = () => {
           const price = coin.current_price ?? 0;
           const change = coin.price_change_percentage_24h ?? 0;
 
+          const badge = getBadgeLabel(change);
+          const badgeType = change >= 10 ? "positive" : "negative";
+
           return (
             <div
               key={coin.id}
@@ -76,7 +81,7 @@ const CryptoList: React.FC = () => {
                   </div>
                 </div>
 
-                {consentGiven && (
+                {consentGiven?.accepted && (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
@@ -117,6 +122,12 @@ const CryptoList: React.FC = () => {
                     {change >= 0 ? "↑" : "↓"} {Math.abs(change).toFixed(2)}%
                   </span>
                 </div>
+
+                {badge && (
+                  <div className="mt-1">
+                    <Badge label={badge} type={badgeType} />
+                  </div>
+                )}
               </div>
             </div>
           );
