@@ -8,24 +8,30 @@ interface ThemeState {
   toggleTheme: () => void;
 }
 
-export const useThemeStore = create<ThemeState>((set, get) => {
-  const theme = loadTheme();
-  const root =
-    typeof document !== "undefined" ? document.documentElement : null;
+/**
+ * Applies the selected theme to the <html> element by updating its class.
+ * This ensures Tailwind's dark mode (via class strategy) works correctly.
+ */
+const applyThemeToDOM = (theme: Theme) => {
+  if (typeof document === "undefined") return;
 
-  if (root) root.classList.add(theme);
+  const root = document.documentElement;
+  root.classList.remove("light", "dark");
+  root.classList.add(theme);
+};
+
+export const useThemeStore = create<ThemeState>((set, get) => {
+  const initialTheme = loadTheme();
+  applyThemeToDOM(initialTheme);
 
   return {
-    theme,
+    theme: initialTheme,
     toggleTheme: () => {
       const current = get().theme;
-      const next = current === "light" ? "dark" : "light";
+      const next: Theme = current === "light" ? "dark" : "light";
 
       saveTheme(next);
-      if (root) {
-        root.classList.remove(current);
-        root.classList.add(next);
-      }
+      applyThemeToDOM(next);
 
       set({ theme: next });
     },
