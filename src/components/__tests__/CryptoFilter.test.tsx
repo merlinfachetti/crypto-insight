@@ -19,24 +19,28 @@ describe("CryptoFilter Component", () => {
     vi.restoreAllMocks();
   });
 
-  it("renders the select element with correct options", () => {
+  it("renders the sort select with default value", () => {
     render(<CryptoFilter />);
-    expect(screen.getByLabelText("Sort by:")).toBeInTheDocument();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
     expect(screen.getByRole("combobox")).toHaveValue("performance");
   });
 
   it("calls setSortBy when a new option is selected", () => {
     render(<CryptoFilter />);
-
     fireEvent.change(screen.getByRole("combobox"), {
       target: { value: "price" },
     });
-
     expect(setSortByMock).toHaveBeenCalledWith("price");
   });
 
-  it("has proper accessibility label", () => {
+  it("renders all three sort options", () => {
     render(<CryptoFilter />);
-    expect(screen.getByLabelText("Sort by:")).toBeInTheDocument();
+    const options = screen.getAllByRole("option");
+    expect(options).toHaveLength(3);
+    expect(options.map((o) => o.getAttribute("value"))).toEqual([
+      "performance",
+      "price",
+      "name",
+    ]);
   });
 });

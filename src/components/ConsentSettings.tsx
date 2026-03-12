@@ -1,30 +1,46 @@
+// src/components/ConsentSettings.tsx
 import { useCryptoStore } from "../store/cryptoStore";
 
 export function ConsentSettings() {
   const { consentGiven, setConsentGiven } = useCryptoStore();
 
-  const handleResetConsent = () => {
-    setConsentGiven(false); // registra que ele recusou novamente
-  };
-
   if (!consentGiven) return null;
 
+  const formattedDate = new Date(consentGiven.at).toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+
   return (
-    <div className="bg-white border border-gray-300 rounded p-4 max-w-md mx-auto mt-8 shadow">
-      <h2 className="text-lg font-semibold mb-2">
-        Preferências de Consentimento
+    <div className="mt-10 border border-gray-200 dark:border-gray-700 rounded-xl p-5 max-w-md bg-white dark:bg-gray-800 shadow-sm">
+      <h2 className="text-base font-semibold text-gray-900 dark:text-white mb-1">
+        Storage Preferences
       </h2>
-      <p className="text-sm text-gray-600">
-        Você {consentGiven.accepted ? "aceitou" : "recusou"} os termos em{" "}
-        <strong>{new Date(consentGiven.at).toLocaleString()}</strong> (versão{" "}
-        <strong>{consentGiven.version}</strong>).
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        You{" "}
+        <span
+          className={`font-medium ${
+            consentGiven.accepted
+              ? "text-green-600 dark:text-green-400"
+              : "text-red-500 dark:text-red-400"
+          }`}
+        >
+          {consentGiven.accepted ? "accepted" : "declined"}
+        </span>{" "}
+        local storage on{" "}
+        <span className="font-medium text-gray-700 dark:text-gray-300">
+          {formattedDate}
+        </span>{" "}
+        <span className="text-xs text-gray-400 dark:text-gray-500">
+          ({consentGiven.version})
+        </span>
       </p>
 
       <button
-        onClick={handleResetConsent}
-        className="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+        onClick={() => setConsentGiven(false)}
+        className="px-4 py-2 text-sm bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
       >
-        Revogar consentimento
+        Revoke consent
       </button>
     </div>
   );

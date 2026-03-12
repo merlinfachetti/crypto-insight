@@ -1,3 +1,4 @@
+// src/components/ConsentBanner.tsx
 import { useCryptoStore } from "../store/cryptoStore";
 
 export function ConsentBanner() {
@@ -5,29 +6,32 @@ export function ConsentBanner() {
 
   if (consentGiven !== null) return null;
 
-  const handleConsent = (value: boolean) => {
-    setConsentGiven(value);
-  };
-
   return (
-    <div className="fixed bottom-0 left-0 w-full bg-black text-white text-sm p-4 flex justify-between items-center z-50">
-      <span>
-        Este site utiliza dados locais para melhorar sua experiência. Você
-        aceita os termos?
-      </span>
-      <div className="space-x-2">
-        <button
-          className="bg-green-600 px-4 py-2 rounded hover:bg-green-700"
-          onClick={() => handleConsent(true)}
-        >
-          Aceitar
-        </button>
-        <button
-          className="bg-red-600 px-4 py-2 rounded hover:bg-red-700"
-          onClick={() => handleConsent(false)}
-        >
-          Recusar
-        </button>
+    <div className="fixed bottom-0 left-0 w-full z-50 border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-lg">
+      <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+            🍪 This site stores preferences locally
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            We use your browser's local storage to save favorites, currency
+            preference and theme. No data is sent to any server.
+          </p>
+        </div>
+        <div className="flex gap-2 shrink-0">
+          <button
+            onClick={() => setConsentGiven(false)}
+            className="px-4 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            Decline
+          </button>
+          <button
+            onClick={() => setConsentGiven(true)}
+            className="px-4 py-2 text-sm rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors font-medium"
+          >
+            Accept
+          </button>
+        </div>
       </div>
     </div>
   );
