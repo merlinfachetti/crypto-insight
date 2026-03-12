@@ -1,15 +1,17 @@
 // src/pages/Home.tsx
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CryptoList from "../components/CryptoList";
 import CryptoFilter from "../components/CryptoFilter";
 import CurrencySelector from "../components/CurrencySelector";
 import PriceChart from "../components/PriceChart";
 import { ConsentSettings } from "../components/ConsentSettings";
 import { ApiFallback } from "@/components/ApiFallback";
+import CoinDetailDrawer from "../components/CoinDetailDrawer";
 import { useCryptoStore } from "@/store/cryptoStore";
 
 const Home: React.FC = () => {
   const { isLoading, error, cryptos, loadCryptos } = useCryptoStore();
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     loadCryptos();
@@ -39,10 +41,15 @@ const Home: React.FC = () => {
 
         <CurrencySelector />
         <CryptoFilter />
-        <CryptoList />
+        <CryptoList onOpenDetail={() => setDrawerOpen(true)} />
         <PriceChart />
         <ConsentSettings />
       </div>
+
+      <CoinDetailDrawer
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      />
     </section>
   );
 };

@@ -87,3 +87,33 @@ export const fetchPriceHistory = async (
     throw new Error("Unknown error while fetching price history");
   }
 };
+
+/**
+ * Fetches educational details for a single coin from the CoinGecko /coins/{id} endpoint.
+ * Only fetches the fields needed for the detail drawer — no market data, no tickers.
+ */
+export const fetchCoinDetail = async (coinId: string): Promise<import("../types/coinDetail").CoinDetail> => {
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/coins/${coinId}`,
+      {
+        params: {
+          localization: false,
+          tickers: false,
+          market_data: false,
+          community_data: false,
+          developer_data: false,
+          sparkline: false,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status ?? 500;
+      const message = (error.response?.data as { error?: string })?.error ?? "API error";
+      throw new Error(`API Error ${status}: ${message}`);
+    }
+    throw new Error("Failed to fetch coin details");
+  }
+};

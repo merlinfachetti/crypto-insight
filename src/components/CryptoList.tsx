@@ -7,7 +7,11 @@ import { Skeleton } from "./ui/skeleton";
 import { useCryptoStore } from "../store/cryptoStore";
 import Badge from "./Badge";
 
-const CryptoList: React.FC = () => {
+interface CryptoListProps {
+  onOpenDetail?: () => void;
+}
+
+const CryptoList: React.FC<CryptoListProps> = ({ onOpenDetail }) => {
   const {
     cryptos,
     isLoading,
@@ -62,7 +66,7 @@ const CryptoList: React.FC = () => {
             <div
               key={coin.id}
               onClick={() => setSelectedCoin(coin.id)}
-              className={`border p-4 rounded-xl shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition-all cursor-pointer
+              className={`relative border p-4 rounded-xl shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition-all cursor-pointer group
                 ${isSelected
                   ? "border-blue-500 dark:border-blue-400 ring-2 ring-blue-300 dark:ring-blue-700"
                   : "border-gray-200 dark:border-gray-700"
@@ -125,6 +129,22 @@ const CryptoList: React.FC = () => {
                   </div>
                 )}
               </div>
+
+              {/* Details button — appears on hover/selected */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedCoin(coin.id);
+                  onOpenDetail?.();
+                }}
+                className={`absolute bottom-3 right-3 text-xs px-2 py-1 rounded-lg font-medium transition-all
+                  bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400
+                  hover:bg-blue-500 hover:text-white dark:hover:bg-blue-500 dark:hover:text-white
+                  opacity-0 group-hover:opacity-100 ${isSelected ? "opacity-100" : ""}`}
+                aria-label={`View details for ${coin.name}`}
+              >
+                Details →
+              </button>
             </div>
           );
         })
