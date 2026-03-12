@@ -1,6 +1,7 @@
 // src/components/Layout.tsx
 import React from "react";
 import Header from "./Header";
+import Logo from "./ui/Logo";
 
 const currentYear = new Date().getFullYear();
 
@@ -12,7 +13,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         {children}
       </main>
       <footer className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-        <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-500 dark:text-gray-400">
+        <div className="mx-auto max-w-7xl px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500 dark:text-gray-400">
           <div className="flex items-center gap-2">
             <img
               src="/avatar.png"
@@ -27,6 +28,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               . All rights reserved.
             </span>
           </div>
+          <Logo className="opacity-60 hover:opacity-100 transition-opacity" />
           <div className="flex items-center gap-3">
             <span className="text-gray-400 dark:text-gray-500">
               Data by{" "}

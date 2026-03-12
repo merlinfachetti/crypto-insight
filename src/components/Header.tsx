@@ -1,10 +1,12 @@
+// src/components/Header.tsx
 import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import ThemeToggle from "./ui/ThemeToggle";
+import Logo from "./ui/Logo";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { to: "/", label: "Home" },
+  { to: "/dashboard", label: "Dashboard" },
   { to: "/favorites", label: "Favorites" },
   { to: "/about", label: "About" },
 ] as const;
@@ -18,10 +20,10 @@ const Header: React.FC = () => {
         {/* Logo */}
         <Link
           to="/"
-          className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+          className="hover:opacity-80 transition-opacity"
           onClick={() => setIsOpen(false)}
         >
-          <img src="/logo.png" alt="CryptoInsight Logo" className="h-8 w-auto" />
+          <Logo />
         </Link>
 
         {/* Desktop nav */}
@@ -53,7 +55,7 @@ const Header: React.FC = () => {
 
       {/* Mobile dropdown */}
       {isOpen && (
-        <nav className="md:hidden px-4 pb-4 space-y-2 animate-fade-down border-t border-gray-100 dark:border-gray-700">
+        <nav className="md:hidden px-4 pb-4 space-y-1 animate-fade-down border-t border-gray-100 dark:border-gray-700">
           {navLinks.map(({ to, label }) => (
             <Link
               key={to}

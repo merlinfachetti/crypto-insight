@@ -19,7 +19,7 @@ const Favorites: React.FC = () => {
           banner at the bottom of the page.
         </p>
         <Link
-          to="/"
+          to="/dashboard"
           className="mt-6 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium"
         >
           Go to Dashboard
@@ -43,7 +43,7 @@ const Favorites: React.FC = () => {
           it here.
         </p>
         <Link
-          to="/"
+          to="/dashboard"
           className="mt-6 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors text-sm font-medium"
         >
           Browse Cryptocurrencies
