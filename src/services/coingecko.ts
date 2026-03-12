@@ -51,17 +51,39 @@ export const fetchPriceHistory = async (
   coinId: string,
   currency: string = "usd"
 ): Promise<PricePoint[]> => {
-  const response = await axios.get(`${BASE_URL}/coins/${coinId}/market_chart`, {
-    params: {
-      vs_currency: currency,
-      days: 7,
-    },
-  });
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/coins/${coinId}/market_chart`,
+      {
+        params: {
+          vs_currency: currency,
+          days: 7,
+        },
+      }
+    );
 
-  const raw: [number, number][] = response.data.prices;
+    if (!response.data?.prices || !Array.isArray(response.data.prices)) {
+      throw new Error("Unexpected response structure from CoinGecko");
+    }
 
-  return raw.map(([timestamp, value]) => ({
-    date: new Date(timestamp).toLocaleDateString(),
-    value: parseFloat(value.toFixed(2)),
-  }));
+    const raw: [number, number][] = response.data.prices;
+
+    return raw.map(([timestamp, value]) => ({
+      date: new Date(timestamp).toLocaleDateString(),
+      value: parseFloat(value.toFixed(2)),
+    }));
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const status = error.response?.status ?? 500;
+      const message =
+        (error.response?.data as { error?: string })?.error ?? "API error";
+      throw new Error(`API Error ${status}: ${message}`);
+    }
+
+    if (error instanceof Error) {
+      throw new Error(`Failed to fetch price history: ${error.message}`);
+    }
+
+    throw new Error("Unknown error while fetching price history");
+  }
 };

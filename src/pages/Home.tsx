@@ -5,21 +5,19 @@ import CryptoFilter from "../components/CryptoFilter";
 import CurrencySelector from "../components/CurrencySelector";
 import PriceChart from "../components/PriceChart";
 import { ConsentSettings } from "../components/ConsentSettings";
-import { useApiStatus } from "@/hooks/useApiStatus";
-import { fetchTopCryptos } from "@/services/coingecko";
 import { ApiFallback } from "@/components/ApiFallback";
-import type { Coin } from "@/types/coin";
+import { useCryptoStore } from "@/store/cryptoStore";
 
 const Home: React.FC = () => {
-  const { loading, error, data, retry } = useApiStatus<Coin[]>(fetchTopCryptos);
+  const { isLoading, error, loadCryptos } = useCryptoStore();
 
   useEffect(() => {
-    retry();
-  }, [retry]);
+    loadCryptos();
+  }, [loadCryptos]);
 
-  if (error) return <ApiFallback retryFn={retry} />;
+  if (error) return <ApiFallback retryFn={loadCryptos} />;
 
-  if (loading || !data) {
+  if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-gray-900 dark:text-white">
         <div className="text-center">
@@ -38,7 +36,7 @@ const Home: React.FC = () => {
         </h2>
         <CurrencySelector />
         <CryptoFilter />
-        <CryptoList coins={data} />
+        <CryptoList />
         <PriceChart />
         <ConsentSettings />
       </div>

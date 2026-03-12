@@ -28,7 +28,7 @@ describe("CoinGecko Service", () => {
     expect(result[0]).toHaveProperty("id");
   });
 
-  it("should handle API errors gracefully", async () => {
+  it("should handle API errors gracefully in fetchTopCryptos", async () => {
     const { fetchTopCryptos } = await import("../../../src/services/coingecko");
 
     (axios.get as unknown as ReturnType<typeof vi.fn>).mockRejectedValue(
@@ -36,5 +36,42 @@ describe("CoinGecko Service", () => {
     );
 
     await expect(fetchTopCryptos()).rejects.toThrow("Unknown Error");
+  });
+
+  it("should return price history as PricePoint array", async () => {
+    const { fetchPriceHistory } = await import(
+      "../../../src/services/coingecko"
+    );
+
+    const mockPrices: [number, number][] = [
+      [1700000000000, 42000.12345],
+      [1700086400000, 43000.67891],
+    ];
+
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: { prices: mockPrices },
+    });
+
+    const result = await fetchPriceHistory("bitcoin");
+
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBe(2);
+    expect(result[0]).toHaveProperty("date");
+    expect(result[0]).toHaveProperty("value");
+    expect(result[0].value).toBe(42000.12);
+  });
+
+  it("should handle errors in fetchPriceHistory gracefully", async () => {
+    const { fetchPriceHistory } = await import(
+      "../../../src/services/coingecko"
+    );
+
+    (axios.get as unknown as ReturnType<typeof vi.fn>).mockRejectedValue(
+      new Error("Network error")
+    );
+
+    await expect(fetchPriceHistory("bitcoin")).rejects.toThrow(
+      "Failed to fetch price history"
+    );
   });
 });
