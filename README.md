@@ -4,11 +4,17 @@
 
 Built by **Alden Merlin** as an open-source portfolio project demonstrating modern frontend engineering practices.
 
+🌐 **Live:** [crypto-insight.aldenmerlin.com](https://crypto-insight.aldenmerlin.com)
+
+---
+
+![CryptoInsight Dashboard](public/screenshot.png)
+
 ---
 
 ## What it is
 
-CryptoInsight is a web platform that visualizes live cryptocurrency market data and helps beginners understand the crypto ecosystem through clean charts, real numbers, and straightforward information.
+CryptoInsight is a web platform that visualizes live cryptocurrency market data and helps beginners understand the crypto ecosystem through an educational landing page, clean charts, real numbers, and straightforward information.
 
 **It is not** a crypto exchange, wallet, trading platform, or financial advisory service.
 
@@ -16,12 +22,13 @@ CryptoInsight is a web platform that visualizes live cryptocurrency market data 
 
 ## Features
 
+- **Educational landing page** — Core concepts, glossary, FAQ and risk disclaimer for beginners
 - **Live market data** — Top 10 cryptocurrencies by market cap, updated on every load
 - **7-day price chart** — Interactive line chart for the selected coin
 - **Multi-currency support** — USD, EUR and BRL
 - **Favorites** — Save coins to a personal list (requires local storage consent)
 - **Sort & filter** — Sort by performance, price or name
-- **Dark / light theme** — Persisted across sessions
+- **Dark / light theme** — Persisted across sessions, logo and UI fully adaptive
 - **Responsive** — Works on mobile, tablet and desktop
 - **Internationalization** — EN and PT-BR support via i18next
 
@@ -41,6 +48,7 @@ CryptoInsight is a web platform that visualizes live cryptocurrency market data 
 | i18n | i18next + react-i18next |
 | Testing | Vitest + Testing Library |
 | Linting | ESLint + typescript-eslint |
+| CI/CD | GitHub Actions + Vercel |
 | Commits | Commitlint + Husky |
 
 ---
@@ -49,7 +57,7 @@ CryptoInsight is a web platform that visualizes live cryptocurrency market data 
 
 All market data is fetched from the [CoinGecko public API](https://www.coingecko.com/en/api) (free tier). No API key required.
 
-> **Note:** The free tier has rate limits (~30 req/min). If data fails to load, the app will retry automatically after 10 seconds.
+> **Note:** The free tier has rate limits (~30 req/min). If data fails to load, the app retries automatically after 10 seconds.
 
 ---
 
@@ -58,11 +66,12 @@ All market data is fetched from the [CoinGecko public API](https://www.coingecko
 ```
 src/
 ├── components/         # Reusable UI components
-│   └── ui/             # Primitive UI elements (skeleton, theme toggle)
+│   └── ui/             # Primitive UI elements (Logo, skeleton, theme toggle)
 ├── pages/              # Route-level page components
-│   ├── Home.tsx        # Dashboard
-│   ├── Favorites.tsx   # Saved coins
-│   └── About.tsx       # Project info
+│   ├── Landing.tsx     # Educational entry point (/)
+│   ├── Home.tsx        # Live dashboard (/dashboard)
+│   ├── Favorites.tsx   # Saved coins (/favorites)
+│   └── About.tsx       # Project info (/about)
 ├── routes/             # TanStack Router config
 ├── services/           # API layer (CoinGecko)
 ├── store/              # Zustand stores (crypto, theme)
@@ -76,6 +85,7 @@ src/
 - Business logic stays in `services/` and `store/` — UI components are dumb consumers
 - `persist` middleware in Zustand handles localStorage — no manual storage utilities needed
 - Router root route owns the `ConsentBanner` — renders on all pages without prop drilling
+- Logo is a pure SVG component — adapts to dark/light mode via Tailwind `currentColor`
 
 ---
 
@@ -98,6 +108,23 @@ npm run test
 # Build
 npm run build
 ```
+
+---
+
+## CI/CD
+
+Every push to `main` triggers the GitHub Actions pipeline:
+
+1. **Test & Lint** — ESLint + Vitest
+2. **Build** — Vite production build via Vercel CLI
+3. **Deploy** — Automatic deploy to [crypto-insight.aldenmerlin.com](https://crypto-insight.aldenmerlin.com)
+
+Pull Requests get a **preview deployment** with the URL commented directly on the PR.
+
+**Required GitHub secret:**
+| Secret | Description |
+|---|---|
+| `VERCEL_TOKEN` | Personal Access Token from vercel.com/account/tokens |
 
 ---
 
