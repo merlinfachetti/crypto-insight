@@ -127,7 +127,7 @@ const About: React.FC = () => {
         <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
           Designed and built by{" "}
           <span className="font-semibold text-gray-800 dark:text-gray-200">
-            Merlin Facchetti
+            Alden Merlin
           </span>
           . This project is open source and intended as a reference for clean
           frontend architecture using modern React tooling.
