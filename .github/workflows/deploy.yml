@@ -9,8 +9,8 @@ on:
       - main
 
 env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  VERCEL_ORG_ID: team_9zB558ZQp5LIC3mr7InyWpwc
+  VERCEL_PROJECT_ID: prj_Tbd2a4b6EGIO6wo8WKvSWdCWyDh7
 
 jobs:
   test:
