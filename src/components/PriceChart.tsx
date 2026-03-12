@@ -2,6 +2,7 @@
 import React from "react";
 import { useCryptoStore } from "../store/cryptoStore";
 import { useThemeStore } from "../store/themeStore";
+import { formatPrice, formatPriceCompact } from "../utils/formatCurrency";
 import {
   LineChart,
   Line,
@@ -13,7 +14,7 @@ import {
 } from "recharts";
 
 const PriceChart: React.FC = () => {
-  const { priceHistory, selectedCoin, cryptos } = useCryptoStore();
+  const { priceHistory, selectedCoin, cryptos, currency } = useCryptoStore();
   const { theme } = useThemeStore();
 
   if (!selectedCoin || priceHistory.length === 0) return null;
@@ -55,11 +56,7 @@ const PriceChart: React.FC = () => {
             tick={{ fill: axisColor, fontSize: 12 }}
             axisLine={{ stroke: gridColor }}
             tickLine={false}
-            tickFormatter={(v: number) =>
-              v >= 1000
-                ? `$${(v / 1000).toFixed(1)}k`
-                : `$${v.toFixed(2)}`
-            }
+            tickFormatter={(v: number) => formatPriceCompact(v, currency)}
           />
           <Tooltip
             contentStyle={{
@@ -70,7 +67,7 @@ const PriceChart: React.FC = () => {
               fontSize: "13px",
             }}
             formatter={(value: number) => [
-              `$${value.toLocaleString("en-US", { minimumFractionDigits: 2 })}`,
+              formatPrice(value, currency),
               "Price",
             ]}
           />

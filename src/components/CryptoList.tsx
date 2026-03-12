@@ -2,6 +2,7 @@
 import React from "react";
 import { sortCryptos } from "../utils/sortCryptos";
 import { getBadgeLabel } from "../utils/getBadgeLabel";
+import { formatPrice } from "../utils/formatCurrency";
 import { Skeleton } from "./ui/skeleton";
 import { useCryptoStore } from "../store/cryptoStore";
 import Badge from "./Badge";
@@ -12,6 +13,7 @@ const CryptoList: React.FC = () => {
     isLoading,
     error,
     sortBy,
+    currency,
     favorites,
     toggleFavorite,
     consentGiven,
@@ -104,10 +106,7 @@ const CryptoList: React.FC = () => {
               <div className="mt-4">
                 <div className="flex justify-between items-end">
                   <span className="text-lg font-bold text-gray-900 dark:text-white">
-                    ${price.toLocaleString("en-US", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
+                    {formatPrice(price, currency)}
                   </span>
                   <span
                     className={`px-2 py-1 rounded text-sm font-medium ${
