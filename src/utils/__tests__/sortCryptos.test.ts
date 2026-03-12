@@ -1,12 +1,12 @@
 // tests/utils/sortCryptos.test.ts
 import { sortCryptos } from "../sortCryptos";
-import type { CryptoCurrency } from "../../types/crypto";
+import type { Coin } from "../../types/coin";
 
 const mockData = [
   { name: "Bitcoin", current_price: 50000, price_change_percentage_24h: 2 },
   { name: "Ethereum", current_price: 3000, price_change_percentage_24h: -1 },
   { name: "Cardano", current_price: 2, price_change_percentage_24h: 10 },
-] as CryptoCurrency[];
+] as Coin[];
 
 test("sorts by price descending", () => {
   const sorted = sortCryptos(mockData, "price");

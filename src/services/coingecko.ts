@@ -1,20 +1,19 @@
 // src/services/coingecko.ts
 import axios, { AxiosError } from "axios";
-import type { CryptoCurrency } from "../types/crypto"; // resposta bruta da API
 import type { PricePoint } from "../types/chart";
-import type { Coin } from "../types/coin"; // tipo usado no app
+import type { Coin } from "../types/coin";
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
 /**
  * Fetches the top cryptocurrencies by market cap, in the selected currency.
- * Maps the raw response to the internal `Coin` type.
+ * Returns data mapped to the internal `Coin` type.
  */
 export const fetchTopCryptos = async (
   currency: string = "usd"
 ): Promise<Coin[]> => {
   try {
-    const response = await axios.get<CryptoCurrency[]>(
+    const response = await axios.get<Coin[]>(
       `${BASE_URL}/coins/markets`,
       {
         params: {
@@ -31,25 +30,7 @@ export const fetchTopCryptos = async (
       throw new Error("Unexpected response structure from CoinGecko");
     }
 
-    // Mapeia a estrutura bruta para o tipo `Coin`
-    return response.data.map(
-      (coin): Coin => ({
-        id: coin.id,
-        name: coin.name,
-        symbol: coin.symbol,
-        image: coin.image,
-        current_price: coin.current_price,
-        market_cap: coin.market_cap,
-        market_cap_rank: coin.market_cap_rank,
-        total_volume: coin.total_volume,
-        price_change_percentage_24h: coin.price_change_percentage_24h,
-        circulating_supply: coin.circulating_supply,
-        total_supply: coin.total_supply,
-        max_supply: coin.max_supply,
-        ath: coin.ath,
-        atl: coin.atl,
-      })
-    );
+    return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError<{ error?: string }>;

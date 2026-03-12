@@ -1,10 +1,10 @@
 // src/utils/sortCryptos.ts
-import type { CryptoCurrency } from "../types/crypto";
+import type { Coin } from "../types/coin";
 
 export const sortCryptos = (
-  data: CryptoCurrency[],
+  data: Coin[],
   by: "price" | "performance" | "name"
-): CryptoCurrency[] => {
+): Coin[] => {
   const clone = [...data];
 
   switch (by) {

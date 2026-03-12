@@ -2,7 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { fetchTopCryptos, fetchPriceHistory } from "../services/coingecko";
-import type { CryptoCurrency } from "../types/crypto";
+import type { Coin } from "../types/coin";
 import type { PricePoint } from "../types/chart";
 
 type SortOption = "price" | "performance" | "name";
@@ -14,7 +14,7 @@ type ConsentGiven = {
 } | null;
 
 type State = {
-  cryptos: CryptoCurrency[];
+  cryptos: Coin[];
   isLoading: boolean;
   error: string | null;
   sortBy: SortOption;
