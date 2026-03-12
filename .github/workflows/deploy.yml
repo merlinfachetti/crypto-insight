@@ -1,35 +1,22 @@
-name: CI
+# GitHub Actions disabled — CI/CD is handled by Vercel Git Integration.
+# Vercel auto-deploys on every push to main.
+# Re-enable this workflow when GitHub Actions billing is active.
+
+name: CI (disabled)
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
-# Deploy is handled automatically by Vercel Git Integration on push to main.
-# This workflow only runs quality checks (lint + tests).
+  workflow_dispatch: # manual only — not triggered on push/PR
 
 jobs:
   test:
     name: Test & Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Run tests
-        run: npm run test
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
