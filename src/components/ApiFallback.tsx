@@ -1,4 +1,9 @@
 // src/components/ApiFallback.tsx
+//
+// Non-blocking inline banner shown when the CoinGecko API fails.
+// Displayed above the dashboard — existing data remains visible and interactive.
+// Auto-retries after `retryDelay` ms; exposes a manual "Retry now" button after that.
+
 import { useEffect, useState } from "react";
 
 interface ApiFallbackProps {
@@ -33,29 +38,33 @@ export function ApiFallback({ retryFn, retryDelay = 10000 }: ApiFallbackProps) {
   }, [retryFn, retryDelay]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">
-      <span className="text-5xl mb-4">📡</span>
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-        Unable to reach the API
-      </h2>
-      <p className="text-sm text-gray-500 dark:text-gray-400 max-w-sm mb-6">
-        CoinGecko's free tier has rate limits. The request may have been
-        throttled — retrying automatically.
-      </p>
+    <div className="flex items-center gap-3 px-4 py-3 mb-6 rounded-xl border border-yellow-200 dark:border-yellow-800 bg-yellow-50 dark:bg-yellow-900/20">
+      <span className="text-xl shrink-0">📡</span>
 
-      {!retried ? (
-        <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-gray-500">
-          <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-blue-500" />
-          Retrying in {countdown}s…
-        </div>
-      ) : (
-        <button
-          onClick={retryFn}
-          className="px-5 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors"
-        >
-          Retry now
-        </button>
-      )}
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-medium text-yellow-800 dark:text-yellow-400">
+          Unable to reach the API
+        </p>
+        <p className="text-xs text-yellow-700 dark:text-yellow-500 mt-0.5">
+          CoinGecko's free tier has rate limits — the request may have been throttled.
+        </p>
+      </div>
+
+      <div className="shrink-0">
+        {!retried ? (
+          <div className="flex items-center gap-1.5 text-xs text-yellow-600 dark:text-yellow-500">
+            <div className="animate-spin rounded-full h-3 w-3 border-t-2 border-b-2 border-yellow-500" />
+            Retrying in {countdown}s
+          </div>
+        ) : (
+          <button
+            onClick={retryFn}
+            className="px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white text-xs font-medium rounded-lg transition-colors"
+          >
+            Retry now
+          </button>
+        )}
+      </div>
     </div>
   );
 }

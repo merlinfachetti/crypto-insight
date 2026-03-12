@@ -9,15 +9,14 @@ import { ApiFallback } from "@/components/ApiFallback";
 import { useCryptoStore } from "@/store/cryptoStore";
 
 const Home: React.FC = () => {
-  const { isLoading, error, loadCryptos } = useCryptoStore();
+  const { isLoading, error, cryptos, loadCryptos } = useCryptoStore();
 
   useEffect(() => {
     loadCryptos();
   }, [loadCryptos]);
 
-  if (error) return <ApiFallback retryFn={loadCryptos} />;
-
-  if (isLoading) {
+  // Full-page spinner only on the very first load (no cached data yet)
+  if (isLoading && cryptos.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-[60vh] text-gray-900 dark:text-white">
         <div className="text-center">
@@ -34,6 +33,10 @@ const Home: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-6 text-gray-900 dark:text-white">
           Top 10 Cryptocurrencies
         </h2>
+
+        {/* Inline error banner — does not block interaction with existing data */}
+        {error && <ApiFallback retryFn={loadCryptos} />}
+
         <CurrencySelector />
         <CryptoFilter />
         <CryptoList />
