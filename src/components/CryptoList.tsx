@@ -1,5 +1,6 @@
 // src/components/CryptoList.tsx
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { sortCryptos } from "../utils/sortCryptos";
 import { getBadgeLabel } from "../utils/getBadgeLabel";
 import { formatPrice } from "../utils/formatCurrency";
@@ -12,6 +13,7 @@ interface CryptoListProps {
 }
 
 const CryptoList: React.FC<CryptoListProps> = ({ onOpenDetail }) => {
+  const { t } = useTranslation();
   const {
     cryptos,
     isLoading,
@@ -44,13 +46,13 @@ const CryptoList: React.FC<CryptoListProps> = ({ onOpenDetail }) => {
       ) : sorted.length === 0 ? (
         <div className="col-span-full text-center py-10">
           <p className="text-gray-500 dark:text-gray-400 text-lg">
-            No cryptocurrency data available.
+            {t("dashboard.no_data")}
           </p>
           <button
             onClick={() => window.location.reload()}
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
           >
-            Retry
+            {t("dashboard.retry")}
           </button>
         </div>
       ) : (
@@ -143,7 +145,7 @@ const CryptoList: React.FC<CryptoListProps> = ({ onOpenDetail }) => {
                   opacity-0 group-hover:opacity-100 ${isSelected ? "opacity-100" : ""}`}
                 aria-label={`View details for ${coin.name}`}
               >
-                Details →
+                {t("details_btn")}
               </button>
             </div>
           );

@@ -1,18 +1,21 @@
 // src/components/Header.tsx
 import React, { useState } from "react";
 import { Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import ThemeToggle from "./ui/ThemeToggle";
+import LanguageToggle from "./ui/LanguageToggle";
 import Logo from "./ui/Logo";
 import { Menu, X } from "lucide-react";
 
-const navLinks = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/favorites", label: "Favorites" },
-  { to: "/about", label: "About" },
-] as const;
-
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation();
+
+  const navLinks = [
+    { to: "/dashboard", label: t("nav.dashboard") },
+    { to: "/favorites", label: t("nav.favorites") },
+    { to: "/about",     label: t("nav.about")     },
+  ] as const;
 
   return (
     <header className="w-full border-b border-gray-200 bg-white dark:bg-gray-900 dark:border-gray-700 shadow-sm">
@@ -37,11 +40,13 @@ const Header: React.FC = () => {
               {label}
             </Link>
           ))}
+          <LanguageToggle />
           <ThemeToggle />
         </nav>
 
-        {/* Mobile: theme toggle + hamburger */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* Mobile: toggles + hamburger */}
+        <div className="flex md:hidden items-center gap-2">
+          <LanguageToggle />
           <ThemeToggle />
           <button
             onClick={() => setIsOpen((prev) => !prev)}

@@ -6,6 +6,7 @@
 //          fetched on-demand from /coins/{id} with loading skeleton.
 
 import React, { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { useCryptoStore } from "../store/cryptoStore";
 import { fetchCoinDetail } from "../services/coingecko";
 import { formatPrice } from "../utils/formatCurrency";
@@ -56,6 +57,7 @@ interface CoinDetailDrawerProps {
 }
 
 const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) => {
+  const { t } = useTranslation();
   const { selectedCoin, cryptos, currency } = useCryptoStore();
   const coin = cryptos.find((c) => c.id === selectedCoin) ?? null;
 
@@ -181,21 +183,21 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
           {/* Market stats — Layer 1: instant from store */}
           <section>
             <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-              Market Data
+              {t("drawer.market_data")}
             </h3>
             <div className="bg-gray-50 dark:bg-gray-800 rounded-xl px-4 py-1">
-              <StatRow label="Market Cap" value={formatLargeNumber(coin.market_cap, currency)} />
-              <StatRow label="Rank" value={`#${coin.market_cap_rank}`} />
-              <StatRow label="24h Volume" value={formatLargeNumber(coin.total_volume, currency)} />
-              <StatRow label="All-Time High" value={formatPrice(coin.ath, currency)} />
-              <StatRow label="All-Time Low" value={formatPrice(coin.atl, currency)} />
+              <StatRow label={t("drawer.market_cap")} value={formatLargeNumber(coin.market_cap, currency)} />
+              <StatRow label={t("drawer.rank")} value={`#${coin.market_cap_rank}`} />
+              <StatRow label={t("drawer.volume")} value={formatLargeNumber(coin.total_volume, currency)} />
+              <StatRow label={t("drawer.ath")} value={formatPrice(coin.ath, currency)} />
+              <StatRow label={t("drawer.atl")} value={formatPrice(coin.atl, currency)} />
               <StatRow
-                label="Circulating Supply"
+                label={t("drawer.circulating")}
                 value={`${(coin.circulating_supply ?? 0).toLocaleString("en-US", { maximumFractionDigits: 0 })} ${coin.symbol.toUpperCase()}`}
               />
               {coin.max_supply && (
                 <StatRow
-                  label="Max Supply"
+                  label={t("drawer.max_supply")}
                   value={`${coin.max_supply.toLocaleString("en-US", { maximumFractionDigits: 0 })} ${coin.symbol.toUpperCase()}`}
                 />
               )}
@@ -205,7 +207,7 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
           {/* About — Layer 2: fetched on demand */}
           <section>
             <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-              About
+              {t("drawer.about")}
             </h3>
 
             {loading && (
@@ -221,12 +223,12 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
             {error && (
               <div className="flex items-center gap-2 text-xs text-yellow-700 dark:text-yellow-500 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-3 py-2">
                 <span>⚠️</span>
-                <span>Could not load details — rate limit may apply.</span>
+                <span>{t("drawer.error")}</span>
                 <button
                   onClick={loadDetail}
                   className="ml-auto text-yellow-600 dark:text-yellow-400 font-medium hover:underline"
                 >
-                  Retry
+                  {t("api_error.retry_now")}
                 </button>
               </div>
             )}
@@ -245,7 +247,7 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-xl px-4 py-1">
                   {categories.length > 0 && (
                     <StatRow
-                      label="Category"
+                      label={t("drawer.category")}
                       value={
                         <div className="flex flex-wrap gap-1 justify-end">
                           {categories.map((cat) => (
@@ -261,7 +263,7 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
                     />
                   )}
                   {genesisDate && (
-                    <StatRow label="Launched" value={genesisDate} />
+                    <StatRow label={t("drawer.launched")} value={genesisDate} />
                   )}
                 </div>
 
@@ -269,13 +271,13 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
                 {(website || twitter || reddit || github) && (
                   <div>
                     <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2">
-                      Links
+                      {t("drawer.links")}
                     </h3>
                     <div className="flex flex-wrap gap-2">
                       {website && (
                         <a href={website} target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-lg transition-colors border border-gray-200 dark:border-gray-700">
-                          🌐 Website
+                          🌐 {t("drawer.website")}
                         </a>
                       )}
                       {twitter && (
@@ -305,12 +307,14 @@ const CoinDetailDrawer: React.FC<CoinDetailDrawerProps> = ({ open, onClose }) =>
 
           {/* Data attribution */}
           <p className="text-xs text-gray-400 dark:text-gray-600 pb-2">
-            Data provided by{" "}
-            <a href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer"
-              className="underline hover:text-gray-600 dark:hover:text-gray-400">
-              CoinGecko
-            </a>
-            . Educational purposes only — not financial advice.
+            {t("drawer.attribution", {
+              provider: (
+                <a key="cg" href="https://www.coingecko.com" target="_blank" rel="noopener noreferrer"
+                  className="underline hover:text-gray-600 dark:hover:text-gray-400">
+                  CoinGecko
+                </a>
+              ) as unknown as string,
+            })}
           </p>
         </div>
       </aside>
