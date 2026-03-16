@@ -2,10 +2,8 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install && cd server && npm install",
   "functions": {
     "api/[...path].ts": {
-      "includeFiles": "server/src/**/*.ts",
       "maxDuration": 10
     }
   },
