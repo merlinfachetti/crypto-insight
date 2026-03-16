@@ -3,7 +3,7 @@ import axios from "axios";
 
 vi.mock("axios");
 
-describe("CoinGecko Service", () => {
+describe("CoinGecko Service (via backend API)", () => {
   it("should return an array of cryptocurrencies", async () => {
     const { fetchTopCryptos } = await import("../../../src/services/coingecko");
 
@@ -35,7 +35,9 @@ describe("CoinGecko Service", () => {
       new Error("API unreachable")
     );
 
-    await expect(fetchTopCryptos()).rejects.toThrow("Unknown Error");
+    await expect(fetchTopCryptos()).rejects.toThrow(
+      "Failed to fetch cryptocurrencies"
+    );
   });
 
   it("should return price history as PricePoint array", async () => {
@@ -43,14 +45,12 @@ describe("CoinGecko Service", () => {
       "../../../src/services/coingecko"
     );
 
-    const mockPrices: [number, number][] = [
-      [1700000000000, 42000.12345],
-      [1700086400000, 43000.67891],
+    const mockPoints = [
+      { date: "3/10/2026", value: 42000.12 },
+      { date: "3/11/2026", value: 43000.68 },
     ];
 
-    (axios.get as jest.Mock).mockResolvedValue({
-      data: { prices: mockPrices },
-    });
+    (axios.get as jest.Mock).mockResolvedValue({ data: mockPoints });
 
     const result = await fetchPriceHistory("bitcoin");
 
