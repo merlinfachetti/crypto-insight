@@ -3,6 +3,10 @@
 // Keeps CoinGecko free-tier rate limits under control (~30 req/min).
 
 import axios, { AxiosError } from "axios";
+import type { Coin, PricePoint, CoinDetail } from "../../../shared/types.js";
+
+// Re-export types so route handlers can import from this module
+export type { Coin, PricePoint, CoinDetail };
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
@@ -50,44 +54,6 @@ function handleApiError(error: unknown, context: string): never {
 // ---------------------------------------------------------------------------
 // Public API
 // ---------------------------------------------------------------------------
-
-export type Coin = {
-  id: string;
-  name: string;
-  symbol: string;
-  image: string;
-  current_price: number;
-  market_cap: number;
-  market_cap_rank: number;
-  total_volume: number;
-  price_change_percentage_24h: number;
-  circulating_supply: number;
-  total_supply: number | null;
-  max_supply: number | null;
-  ath: number;
-  atl: number;
-};
-
-export type PricePoint = {
-  date: string;
-  value: number;
-};
-
-export type CoinDetail = {
-  id: string;
-  name: string;
-  symbol: string;
-  image: { large: string };
-  genesis_date: string | null;
-  categories: string[];
-  description: { en: string };
-  links: {
-    homepage: string[];
-    twitter_screen_name: string;
-    subreddit_url: string;
-    repos_url: { github: string[] };
-  };
-};
 
 /**
  * Fetches top 10 cryptocurrencies by market cap.
