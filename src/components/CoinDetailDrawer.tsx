@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useCryptoStore } from "../store/cryptoStore";
 import { fetchCoinDetail } from "../services/coingecko";
 import { formatPrice } from "../utils/formatCurrency";
-import type { CoinDetail } from "../types/coinDetail";
+import type { CoinDetail } from "../../shared/types";
 
 // Strips HTML tags from CoinGecko description (returns plain text)
 function stripHtml(html: string): string {

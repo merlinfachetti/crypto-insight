@@ -2,8 +2,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { fetchTopCryptos, fetchPriceHistory } from "../services/coingecko";
-import type { Coin } from "../types/coin";
-import type { PricePoint } from "../types/chart";
+import type { Coin, PricePoint } from "../../shared/types";
 
 type SortOption = "price" | "performance" | "name";
 

@@ -3,9 +3,7 @@
 // In dev, Vite proxies /api → localhost:3001. In prod, Vercel rewrites handle it.
 
 import axios, { AxiosError } from "axios";
-import type { PricePoint } from "../types/chart";
-import type { Coin } from "../types/coin";
-import type { CoinDetail } from "../types/coinDetail";
+import type { PricePoint, Coin, CoinDetail } from "../../shared/types";
 
 /**
  * Shared error handler for all API calls.

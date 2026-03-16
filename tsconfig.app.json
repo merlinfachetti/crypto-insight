@@ -33,5 +33,5 @@
     /* Cross-platform consistency */
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "include": ["src", "shared"]
 }

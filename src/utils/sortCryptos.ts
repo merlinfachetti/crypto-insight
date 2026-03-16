@@ -1,5 +1,5 @@
 // src/utils/sortCryptos.ts
-import type { Coin } from "../types/coin";
+import type { Coin } from "../../shared/types";
 
 export const sortCryptos = (
   data: Coin[],
